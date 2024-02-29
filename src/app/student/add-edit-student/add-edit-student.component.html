@@ -1,0 +1,71 @@
+<p-dialog header="{{modalType}} Student" [(visible)]="displayAddEditModal" [modal]="true" [style]="{ width: '50vw', height: '35vw'}"
+   [resizable]="false" styleClass="p-fluid" [formGroup]="studentForm" (onHide)="closeModal()">
+  
+   <ng-template pTemplate="content" >
+    <div class="field grid">
+      <!--Name-->
+      <input  hidden name="id">
+      <div class="field col">
+        <label class="block" for="name">Name</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-angle-right"></i>
+        <input type="text" id="name" pKeyFilter="alpha" formControlName="name" pInputText />
+      </span>
+        <small class="p-error block" *ngIf="
+            studentForm.controls['name'].invalid &&
+            studentForm.controls['name'].dirty
+          ">
+          Name is required
+        </small>
+      </div>
+
+      <!--Email-->
+      <input  hidden name="id">
+      <div class="field col">
+        <label class="block" for="email">Email</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-google"></i>
+        <input type="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" formControlName="email" pInputText />
+      </span>
+        <small class="p-error block" *ngIf="
+            studentForm.controls['email'].invalid &&
+            studentForm.controls['email'].dirty
+          ">
+          Email is required
+        </small>
+      </div>
+
+    </div>
+
+    <div class="field grid">
+      <!--Phone Number-->
+      <input  hidden name="id">
+      <div class="field col">
+        <label class="block" for="phoneNumber">Phone Number</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-phone"></i>
+        <input type="text" id="phoneNumber" pKeyFilter="blockSpace" pattern="[7-9]{1}[0-9]{9}" formControlName="phoneNumber" pInputText pKeyFilter="int" maxlength="10" #phoneNumber (focusout) = "onFocusOut(phoneNumber.value)"/>
+      </span>
+      <div *ngIf="phoneNumberError" class="p-error block">{{ phoneNumberError }}</div>
+      <small class="p-error block" *ngIf="studentForm.controls['phoneNumber'].invalid && studentForm.controls['phoneNumber'].dirty">Phone Number is required</small>
+      </div>
+
+      <!--Aadhar Number-->
+      <input  hidden name="id">
+      <div class="field col">
+        <label class="block" for="aadharNumber">Aadhar Number</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-user"></i>
+        <input type="text" id="aadharNumber" pKeyFilter="int" formControlName="aadharNumber" pInputText placeholder="Enter your Aadhar Number" pattern="[0-9]{4}[0-9]{4}[0-9]{4}" maxlength="12"/>
+      </span>
+      <small class="p-error block" *ngIf="studentForm.controls['aadharNumber'].invalid && studentForm.controls['aadharNumber'].dirty">Aadhar Number is required</small>
+      </div>
+    </div>
+  
+  </ng-template>
+  
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-save" (click)="addEditStudent()" label="{{modalType}}"  type="Submit" [disabled]="!studentForm.valid" styleClass="p-button-raised p-button-rounded"></p-button>
+    <p-button icon="pi pi-cancel" (click)="closeModal()" label="Cancel" styleClass=" p-button-danger p-button-raised p-button-rounded"></p-button>
+  </ng-template>
+</p-dialog>

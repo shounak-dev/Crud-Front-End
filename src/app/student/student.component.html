@@ -1,0 +1,64 @@
+<div class="card">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Add Student" icon="pi pi-user-plus" class="p-button-success  p-2 m-1" (click)="showAddModal()"></button>
+            </ng-template>
+            
+            <ng-template pTemplate="right">
+                <button pButton pRipple  icon="pi pi-trash" class="p-button-danger"></button>
+                
+            </ng-template>
+        </p-toolbar>
+    <div class="flex justify-content-around">
+        <h2 class="text-align:center">Student Table</h2>
+    </div>
+    <p-table #dt [value]="students" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" [globalFilterFields]="['name','email','phoneNumber','aadharNumber']" 
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowHover]="true" dataKey="id">
+        <ng-template pTemplate="caption">
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <!-- <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." /> -->
+            </span>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox ></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="name"> Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="phoneNumber">Phone<p-sortIcon field="phoneNumber"></p-sortIcon></th>
+                <th pSortableColumn="aadharNumber">Aadhar<p-sortIcon field="aadharNumber"></p-sortIcon></th>
+                <th>Action</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-students>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="students"></p-tableCheckbox>
+                </td>
+                <td>{{students.name}}</td>
+                <td>{{students.email}}</td>
+                <td>{{students.phoneNumber}}</td>
+                <td>{{students.aadharNumber}}</td>
+                <td>
+                    <div class="flex flex-wrap">
+                    <button pButton pRipple icon="pi pi-pencil mx-6 " class="p-button-rounded p-button-success p-mr-2" (click)="showEditModal(students)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteStudent(students)"></button>
+                </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
+    </div>
+
+    <app-add-edit-student 
+    [displayAddEditModal] ="displayAddEditModal"
+    [selectedStudent] ="selectedStudent"
+    (clickClose)="hideAddModal($event)"
+    (onSaveEdit)="saveStudentToList()">
+</app-add-edit-student>
+
+<p-confirmDialog header="Delete Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+<p-toast position="bottom-right" ></p-toast>
